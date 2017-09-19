@@ -1,0 +1,11 @@
+#!/bin/bash
+
+PYTHONIOENCODING=utf-8:
+
+# map phase
+for f in $*; do
+    export mapreduce_map_input_file=$f
+    cat $f | python mapper.py >> mapout.$$
+done
+
+LC_ALL=C sort -k1,1i mapout.$$ | python reducer.py >> output
